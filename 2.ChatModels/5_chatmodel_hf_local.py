@@ -9,6 +9,7 @@ llm = HuggingFacePipeline.from_model_id(
         max_new_tokens=100,
     ),
 )
+
 model = ChatHuggingFace(llm=llm)
 
 result = model.invoke("What is the capital of India")
