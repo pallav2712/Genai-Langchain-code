@@ -1,0 +1,25 @@
+from typing import Annotated, Literal, Optional, TypedDict
+
+from dotenv import load_dotenv
+from langchain_groq import ChatGroq
+
+load_dotenv()
+
+model = ChatGroq(model="openai/gpt-oss-120b")
+
+
+class Review(TypedDict): #type dict just define the type of dict element not like #pydantic which raise runtime error if type of element is not followed.
+
+    summary: str
+    sentiment: str
+
+structured_model = model.with_structured_output(Review, method="json_schema")
+
+result = structured_model.invoke("""The hardware is great, but the software feels bloated. 
+There are too many pre-installed apps that I can't remove. Also, the UI looks outdated 
+compared to other brands. Hoping for a software update to fix this.""")
+
+print(type(result))
+print(result)
+print(result['summary'])
+print(result['sentiment'])
