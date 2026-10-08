@@ -20,8 +20,8 @@ There are too many pre-installed apps that I can't remove. Also, the UI looks ou
 compared to other brands. Hoping for a software update to fix this.""")
 
 
-print(result)
 print(type(result))
+print(result)
 print(result['summary'])
 print(result['sentiment'])
 
