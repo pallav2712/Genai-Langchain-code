@@ -11,7 +11,9 @@ click==8.5.0
 cloudpickle==3.1.2
 cryptography==50.0.2
 distro==1.9.0
+dnspython==2.9.0
 docstring_parser==0.18.0
+email-validator==2.3.0
 filelock==4.0.12
 filetype==1.2.0
 fsspec==2026.9.0
