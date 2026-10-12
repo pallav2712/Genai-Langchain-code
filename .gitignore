@@ -1,2 +1,18 @@
+# Virtual environment
+.venv/
+
+# Python cache
+__pycache__/
+*.py[cod]
+
+# Secrets
 .env
-.venv
+
+# Build output (only if you build packages)
+build/
+dist/
+*.egg-info/
+
+# Editor / OS
+.vscode/
+.DS_Store
