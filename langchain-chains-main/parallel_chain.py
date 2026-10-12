@@ -1,37 +1,36 @@
-from langchain_openai import ChatOpenAI
-from langchain_anthropic import ChatAnthropic
 from dotenv import load_dotenv
-from langchain_core.prompts import PromptTemplate
 from langchain_core.output_parsers import StrOutputParser
-from langchain.schema.runnable import RunnableParallel
+from langchain_core.prompts import PromptTemplate
+from langchain_core.runnables import RunnableParallel
+from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_groq import ChatGroq
 
 load_dotenv()
 
-model1 = ChatOpenAI()
+model1 = ChatGroq(model="openai/gpt-oss-120b")
 
-model2 = ChatAnthropic(model_name='claude-3-7-sonnet-20250219')
+model2 = ChatGoogleGenerativeAI(model="gemini-3.7-flash")
 
 prompt1 = PromptTemplate(
-    template='Generate short and simple notes from the following text \n {text}',
-    input_variables=['text']
+    template="Generate short and simple notes from the following text \n {text}",
+    input_variables=["text"],
 )
 
 prompt2 = PromptTemplate(
-    template='Generate 5 short question answers from the following text \n {text}',
-    input_variables=['text']
+    template="Generate 5 short question answers from the following text \n {text}",
+    input_variables=["text"],
 )
 
 prompt3 = PromptTemplate(
-    template='Merge the provided notes and quiz into a single document \n notes -> {notes} and quiz -> {quiz}',
-    input_variables=['notes', 'quiz']
+    template="Merge the provided notes and quiz into a single document \n notes -> {notes} and quiz -> {quiz}",
+    input_variables=["notes", "quiz"],
 )
 
 parser = StrOutputParser()
 
-parallel_chain = RunnableParallel({
-    'notes': prompt1 | model1 | parser,
-    'quiz': prompt2 | model2 | parser
-})
+parallel_chain = RunnableParallel(
+    {"notes": prompt1 | model1 | parser, "quiz": prompt2 | model2 | parser}
+)
 
 merge_chain = prompt3 | model1 | parser
 
@@ -59,9 +58,8 @@ SVMs do not directly provide probability estimates, these are calculated using a
 The support vector machines in scikit-learn support both dense (numpy.ndarray and convertible to that by numpy.asarray) and sparse (any scipy.sparse) sample vectors as input. However, to use an SVM to make predictions for sparse data, it must have been fit on such data. For optimal performance, use C-ordered numpy.ndarray (dense) or scipy.sparse.csr_matrix (sparse) with dtype=float64.
 """
 
-result = chain.invoke({'text':text})
+result = chain.invoke({"text": text})
 
 print(result)
 
 chain.get_graph().print_ascii()
-

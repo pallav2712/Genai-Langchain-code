@@ -3,7 +3,7 @@ from langchain_groq import ChatGroq
 
 load_dotenv()
 
-model = ChatGroq(model="openai/gpt-oss-120b")
+model = ChatGroq(model="openai/gpt-oss-120b", temperature=0)
 
 result = model.invoke("Write a 5 line poem on cricket")
 
