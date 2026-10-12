@@ -15,7 +15,7 @@ llm = HuggingFacePipeline.from_model_id(
         temperature=0.5,
         max_new_tokens=250,
         return_full_text=False,
-    ),  # hyper parameter / inference parameters
+    ),  # inference parameters/ hyper parameter
 )
 
 model = ChatHuggingFace(llm=llm)
@@ -30,21 +30,25 @@ class Person(BaseModel):
 parser = PydanticOutputParser(pydantic_object=Person)
 
 template = PromptTemplate(
-    template="Generate the name, age and city of a fictional {place} person \n {format_instruction}",
+    template=(
+        "Generate a fictional person from {place}. "
+        "Give a realistic first and last name, an age above 18, and their city.\n"
+        "{format_instruction}"
+    ),
     input_variables=["place"],
     partial_variables={"format_instruction": parser.get_format_instructions()},
 )
 
-# chain = template | model | parser
+chain = template | model | parser
 
-# final_result = chain.invoke({"place": "sri lankan"})
+final_result = chain.invoke({"place": "sri lankan"})
 
-prompt = template.invoke({'place': 'pakistan'})
+# prompt = template.invoke({"place": "pakistan"})
 
-result = model.invoke(prompt)
+# result = model.invoke(prompt)
 
-final_result = parser.parse(result.content)
+# final_result = parser.parse(result.content)  # type: ignore
 
 print(final_result)
 
-print(prompt)
+# print(prompt)
