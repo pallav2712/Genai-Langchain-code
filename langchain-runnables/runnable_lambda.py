@@ -37,3 +37,4 @@ result = final_chain.invoke({"topic": "AI"})
 final_result = """{} \n word count - {}""".format(result["joke"], result["word_count"])
 
 print(final_result)
+
