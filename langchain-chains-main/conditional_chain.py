@@ -44,7 +44,7 @@ branch_chain = RunnableBranch(
     (lambda x: x.sentiment == "positive", prompt2 | model | parser),  # type: ignore
     (lambda x: x.sentiment == "negative", prompt3 | model | parser),  # type: ignore
     RunnableLambda(lambda x: "could not find sentiment"),
-)
+) # runnablebranch acts as a if else block
 
 chain = classifier_chain | branch_chain
 
