@@ -7,6 +7,8 @@ from langchain_core.runnables import (
     RunnableSequence,
 )
 from langchain_groq import ChatGroq
+from rich.console import Console
+from rich.markdown import Markdown
 
 load_dotenv()
 
@@ -33,4 +35,20 @@ parallel_chain = RunnableParallel(
 
 final_chain = RunnableSequence(joke_gen_chain, parallel_chain)
 
-print(final_chain.invoke({"topic": "cricket"}))
+result = final_chain.invoke({"topic": "cricket"})
+
+
+
+console = Console()
+
+console.print("Joke: ", result["joke"])
+
+print("---------------------------")
+
+console.print("Explanation: ", Markdown(result["explanation"]))
+
+# with open('output.md', "w", encoding="utf-8") as f:
+#     f.write(result['explanation'])
+
+
+# runnable passthrough: returns the same input as output
